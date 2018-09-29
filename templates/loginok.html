@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录成功</title>
+</head>
+<body>
+    {% if user %}
+        {% if sex == '1' %}
+            <h1 style="color: red">欢迎来自{{ city }} 的 {{ user }} 先生！ </h1>
+         {% else %}
+            <h1 style="color: red">欢迎来自{{ city }} 的 {{ user }} 女士！ </h1>
+        {% endif %}
+    {% else %}
+        <h1 style="color: red">欢迎 {{ user }} ！ </h1>
+    {% endif %}
+</body>
+</html>
