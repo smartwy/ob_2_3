@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url
-from app01 import views
+from django.conf.urls import url, include
+from ob_2 import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.hello), # 如果使用url做根映射，会一直在返回hello中
-    # url(r'hello', views.hello), # FBV 模式
-    url(r'^login', views.Login.as_view()), # CBV 模式 自动判断请求模式，
+    path('', views.root), # 如果使用url做根映射，会一直在返回hello中
+    url(r'^hello/', include('app02.urls')), # FBV 模式
+    url(r'^index/', include('app01.urls')), # 内含CBV模式
+
 ]

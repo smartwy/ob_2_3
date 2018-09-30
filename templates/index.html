@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+
+     <form action="{{ request.path_info }}" style="text-align: center" method="post"> {# 使用当前地址作为提交URL：场景：在浏览多页网页时，登陆后留在登录前的网页上 #}
+        <p><input type="text" name="user" placeholder="用户名"/></p>
+        <p><input type="text" name="email" placeholder="邮箱"/></p>
+        <p><input type="submit" value="提交"/></p>
+    <ul style="text-align: center">
+>
+        {% for k,item in user_dict.items %}
+            <li><a target="_blank" href="detail-{{ k }}.html">{{ item.name }}</a></li> {# _blank:点击后打开新页面 #}
+        {% endfor %}
+    </ul>
+</body>
+</html>

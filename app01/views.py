@@ -9,44 +9,23 @@ from django.shortcuts import render
 #Author:    smartwy
 #Date:
 #Version:
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 from django.views import View
 import os
-def hello(request):
-	# print('hello')
-	return render(request, 'hello.html')
 
-def file_save(request):
-	obj = request.FILES.get('filename')  # FILES只取上传的文件
-	file_path = os.path.join('upload', obj.name)
-	f = open(file_path, mode='wb')
-	for i in obj.chunks():
-		f.write(i)
-	f.close()
+USER_DICT = {
+	'id-1':{'name':'root1','email':'abc@163.com'},
+	'id-2':{'name':'root2','email':'abc@163.com'},
+	'id-3':{'name':'root3','email':'abc@163.com'},
+	'id-4':{'name':'root4','email':'abc@163.com'},
+}
 
-class Login(View):
-	'''CBV模型中url.py匹配到类时会先执行View的dispatch函数获取请求方法
-		也可在自定义类中自定义dispatch函数，优先级高与View中的函数
-	'''
-	def dispatch(self, request, *args, **kwargs):
-		# 调用父类中的dispatch，结果需要在自定义函数内返回
-		print('start View.dispatch') # 可以健壮dispatch函数功能，可以理解为装饰器
-		result = super(Login, self).dispatch(request, *args, **kwargs)
-		print('stop View.dispatch')
-		return result
+def detail(request, **kwargs):  # 使用关键字参数，使用实参名作为Key值调用
 
-	def post(self,request):
-		print('post')
-		if request.POST.get('user') == 'asdf' and request.POST.get('passwd') == '123':
-			print(request.POST.getlist('fover'),request.POST.get('city')) # getlist 可获取chechbox的多选值
-			# 保存上传的文件
-			if request.FILES.get('filename'):
-				file_save(request)
-			return render(request,'loginok.html',{'user':request.POST.get('user'),
-			                                      'sex':request.POST.get('gender'),
-			                                      'city':request.POST.get('city')})
-		else:
-			return render(request,'hello.html')
-	def get(self,request):
-		print('get')
-		return render(request, 'hello.html')
+	info = USER_DICT[kwargs['reg']+'-'+kwargs['arg']]
+	return render(request, 'detail.html',{'info': info})
+
+def index(request):
+
+	print(request.path_info)# 打印当前请求的url
+	return render(request, 'index.html', {'user_dict': USER_DICT})
